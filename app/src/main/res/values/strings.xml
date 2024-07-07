@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Kaizen</string>
+    <string name="show_favorites_only">Show Favorites Only</string>
+    <string name="api_error">Oops! Something went wrong. Please try again later.</string>
+    <string name="no_events">No events scheduled yet. Check back later!</string>
+</resources>
