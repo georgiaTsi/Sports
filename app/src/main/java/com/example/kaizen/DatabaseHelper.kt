@@ -12,7 +12,9 @@ class DatabaseHelper(context:  Context) : SQLiteOpenHelper(context,  "favorites_
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion:Int, newVersion: Int) {
-
+        db.execSQL("DROP TABLE IF EXISTS favorites_sports_table")
+        db.execSQL("DROP TABLE IF EXISTS favorites_events_table")
+        onCreate(db)
     }
 
     fun addFavoriteSport(sportName:  String) {
@@ -40,7 +42,7 @@ class DatabaseHelper(context:  Context) : SQLiteOpenHelper(context,  "favorites_
         return sportList
     }
 
-    fun addFavoriteEvent(eventName:  String) {
+    fun addFavoriteEvent(eventName: String) {
         val db = writableDatabase
         val values = ContentValues().apply {
             put("name", eventName)
@@ -49,7 +51,7 @@ class DatabaseHelper(context:  Context) : SQLiteOpenHelper(context,  "favorites_
         db.insert("favorites_events_table", null, values)
     }
 
-    fun removeFavoriteEvent( eventName:  String) {
+    fun removeFavoriteEvent( eventName: String) {
         val db = writableDatabase
         db.delete("favorites_events_table" ,  "name = ?", arrayOf(eventName))
     }

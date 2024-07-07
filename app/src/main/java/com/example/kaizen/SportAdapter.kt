@@ -32,7 +32,7 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
 
             holder.linear_collapse.visibility = if (!isExpanded) View.GONE else View.VISIBLE
 
-            holder.iv_expand.setRotation(180F);
+            holder.iv_expand.setRotation(holder.iv_expand.rotation+180);
         }
 
         holder.toggle_star.setOnClickListener {
@@ -78,7 +78,7 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
             val layoutManager = CustomGridLayoutManager(itemView.context)
             rv_events.layoutManager = layoutManager
 
-            val eventAdapter = EventAdapter(sport.events)
+            val eventAdapter = EventAdapter(sport.events, this.itemView.context)
             rv_events.adapter = eventAdapter
 
             toggle_star.isChecked = false
@@ -87,6 +87,8 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
 
             rv_events.visibility = View.VISIBLE
             linear_collapse.visibility = View.GONE
+
+            iv_expand.setRotation(0F)
         }
     }
 }

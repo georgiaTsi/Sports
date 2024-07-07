@@ -60,10 +60,16 @@ class MainActivity : AppCompatActivity(), FavoriteSportListener {
                     }
 
                     val favoriteSports = dbHelper.getAllFavoriteSports()
+                    val favoriteEvents = dbHelper.getAllFavoriteEvents()
 
                     for(sport in response.body()!!){
                         if(favoriteSports.contains(sport.name))
                             sport.isStarred = true
+
+                        for(event in sport.events){
+                            if(favoriteEvents.contains(event.eventId))
+                                event.isFavorite = true
+                        }
                     }
 
                     sports.addAll(response.body()!!)

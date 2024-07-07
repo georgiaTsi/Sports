@@ -1,5 +1,7 @@
 package com.example.kaizen
 
+import android.content.ContentValues
+import android.content.Context
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +16,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private val events: List<Event>, private val context: Context) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
@@ -36,6 +38,8 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
             }
 
             event.isFavorite = !event.isFavorite
+
+            addFavoriteEvent(event.eventId, event.isFavorite)
         }
     }
 
@@ -111,5 +115,14 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
             val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as? EventViewHolder
             viewHolder?.countDownTimer?.cancel()
         }
+    }
+
+    fun addFavoriteEvent(eventId: String, isFavorite: Boolean) {
+        val dbHelper = DatabaseHelper(context)
+
+        if(isFavorite)
+            dbHelper.addFavoriteEvent(eventId)
+        else
+            dbHelper.removeFavoriteEvent(eventId)
     }
 }
