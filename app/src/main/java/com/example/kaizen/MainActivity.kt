@@ -1,5 +1,6 @@
 package com.example.kaizen;
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
@@ -23,22 +24,19 @@ class MainActivity : AppCompatActivity(), FavoriteSportListener {
     private lateinit var recyclerView: RecyclerView
     private val sports = mutableListOf<Sport>()
 
-    private lateinit var database: AppDatabase
-    private lateinit var favoriteSportDao: FavoriteSportDao
-    private lateinit var adapter: EventAdapter
+    private lateinit var dbHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        database = AppDatabase.getDatabase(this)
-//        favoriteSportDao = database.favoriteSportDao()
+        dbHelper = DatabaseHelper(this)
 
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val starCheckbox = findViewById<CheckBox>(R.id.checkbox_star)
-        starCheckbox.setOnClickListener{ v ->
+        starCheckbox.setOnClickListener{
             sportAdapter.filterStarred(starCheckbox.isChecked)
         }
 
@@ -59,6 +57,13 @@ class MainActivity : AppCompatActivity(), FavoriteSportListener {
                         }
 
                         return@launch
+                    }
+
+                    val favoriteSports = dbHelper.getAllFavoriteSports()
+
+                    for(sport in response.body()!!){
+                        if(favoriteSports.contains(sport.name))
+                            sport.isStarred = true
                     }
 
                     sports.addAll(response.body()!!)
@@ -90,13 +95,13 @@ class MainActivity : AppCompatActivity(), FavoriteSportListener {
 
     override fun addFavoriteSport(sportName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-//            favoriteSportDao.insert(FavoriteSport(sportName = sportName))
+            dbHelper.addFavoriteSport(sportName)
         }
     }
 
     override fun removeFavoriteSport(sportName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-//            favoriteSportDao.deleteBySportName(sportName)
+            dbHelper.removeFavoriteSport(sportName)
         }
     }
 }

@@ -28,7 +28,7 @@ class EventAdapter(private val events: List<Event>) : RecyclerView.Adapter<Event
 
         initCountdown(holder, event)
 
-        holder.iv_favorite.setOnClickListener{ v ->
+        holder.iv_favorite.setOnClickListener{
             if (event.isFavorite) {
                 holder.iv_favorite.setImageResource(R.drawable.star)
             } else {

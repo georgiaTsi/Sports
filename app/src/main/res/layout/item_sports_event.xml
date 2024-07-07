@@ -2,13 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <ImageView
             android:id="@+id/imageview_ball"
@@ -38,7 +39,7 @@
         <ImageView
             android:id="@+id/iv_expand"
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="match_parent"
             android:src="@drawable/expand"
             android:padding="2dp"/>
     </LinearLayout>
@@ -48,6 +49,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        android:visibility="visible" />
+        android:background="@color/dark_gray"
+        android:padding="5dp"/>
+
+    <LinearLayout
+        android:id="@+id/linear_collapse"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/dark_gray"
+        android:orientation="horizontal"
+        android:visibility="gone"/>
 
 </LinearLayout>

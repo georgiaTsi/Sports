@@ -26,9 +26,11 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
     override fun onBindViewHolder(holder: SportViewHolder, position: Int) {
         holder.bind(filteredList[position])
 
-        holder.iv_expand.setOnClickListener { v ->
+        holder.iv_expand.setOnClickListener {
             val isExpanded = holder.rv_events.visibility == View.VISIBLE
             holder.rv_events.visibility = if (isExpanded) View.GONE else View.VISIBLE
+
+            holder.linear_collapse.visibility = if (!isExpanded) View.GONE else View.VISIBLE
 
             holder.iv_expand.setRotation(180F);
         }
@@ -63,6 +65,7 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
         val rv_events: RecyclerView = itemView.findViewById(R.id.rv_events)
         val iv_expand: ImageView = itemView.findViewById(R.id.iv_expand)
         val toggle_star: Switch = itemView.findViewById(R.id.switch_star)
+        val linear_collapse: View = itemView.findViewById(R.id.linear_collapse)
 
         fun bind(sport: Sport) {
             tv_sport.text = sport.name
@@ -81,6 +84,9 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
             toggle_star.isChecked = false
             if(sport.isStarred)
                 toggle_star.isChecked = true
+
+            rv_events.visibility = View.VISIBLE
+            linear_collapse.visibility = View.GONE
         }
     }
 }
