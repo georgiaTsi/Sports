@@ -1,6 +1,5 @@
 package com.example.kaizen;
 
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kaizen.api.RetrofitInstance
-import com.example.kaizen.model.Event
 import com.example.kaizen.model.Sport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -70,11 +70,6 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
         fun bind(sport: Sport) {
             tv_sport.text = sport.name
 
-            if(sport.name == "SOCCER")
-                imageview_ball.setImageResource(R.drawable.soccer)
-            else if(sport.name == "BASKETBALL")
-                imageview_ball.setImageResource(R.drawable.basketball)
-
             val layoutManager = CustomGridLayoutManager(itemView.context)
             rv_events.layoutManager = layoutManager
 

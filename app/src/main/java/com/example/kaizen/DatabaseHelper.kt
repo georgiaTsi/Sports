@@ -18,48 +18,44 @@ class DatabaseHelper(context:  Context) : SQLiteOpenHelper(context,  "favorites_
     }
 
     fun addFavoriteSport(sportName:  String) {
-        val db = writableDatabase
-        val values = ContentValues().apply { put("name", sportName) }
-        db.insert("favorites_sports_table" ,  null, values)
+        addFavorite("favorites_sports_table", sportName)
     }
 
     fun removeFavoriteSport( sportName:  String) {
-        val db = writableDatabase
-        db.delete("favorites_sports_table" ,  "name = ?", arrayOf(sportName))
+        removeFavorite("favorites_sports_table", sportName)
     }
 
     fun getAllFavoriteSports( )  : List<String> {
-        val db = readableDatabase
-        val sportList = mutableListOf<String> ( )
-        val cursor = db.query("favorites_sports_table" ,  null, null, null, null, null, null)
-
-        while (cursor.moveToNext() )  {
-            val sportName = cursor.getString(cursor. getColumnIndexOrThrow( "name" ) )
-            sportList.add(sportName)
-        }
-
-        cursor.close()
-        return sportList
+        return getAll("favorites_sports_table")
     }
 
     fun addFavoriteEvent(eventName: String) {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("name", eventName)
-        }
-
-        db.insert("favorites_events_table", null, values)
+        addFavorite("favorites_events_table", eventName)
     }
 
-    fun removeFavoriteEvent( eventName: String) {
-        val db = writableDatabase
-        db.delete("favorites_events_table" ,  "name = ?", arrayOf(eventName))
+    fun removeFavoriteEvent(eventName: String) {
+        removeFavorite("favorites_events_table", eventName)
     }
 
     fun getAllFavoriteEvents( )  : List<String> {
+        return getAll("favorites_events_table")
+    }
+
+    fun addFavorite(table:String, name: String) {
+        val db = writableDatabase
+        val values = ContentValues().apply { put("name", name) }
+        db.insert(table,null, values)
+    }
+
+    fun removeFavorite(table: String, name: String) {
+        val db = writableDatabase
+        db.delete(table,  "name = ?", arrayOf(name))
+    }
+
+    fun getAll(table: String)  : List<String> {
         val db = readableDatabase
         val sportList = mutableListOf<String> ( )
-        val cursor = db.query("favorites_events_table" ,  null, null, null, null, null, null)
+        val cursor = db.query(table ,  null, null, null, null, null, null)
 
         while (cursor.moveToNext() )  {
             val sportName = cursor.getString(cursor. getColumnIndexOrThrow( "name" ) )

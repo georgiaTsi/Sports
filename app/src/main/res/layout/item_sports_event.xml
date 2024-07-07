@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/soccer" />
+            android:src="@drawable/circle" />
 
         <TextView
             android:id="@+id/tv_sport"
