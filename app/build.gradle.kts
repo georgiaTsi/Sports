@@ -4,17 +4,18 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kaizen"
+    namespace = "com.example.sports"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.kaizen"
+        applicationId = "com.example.sports"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -38,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -75,6 +77,7 @@ dependencies {
     implementation(libs.androidx.room.runtime.android)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.espresso.core)
+    implementation(libs.androidx.espresso.contrib)
     testImplementation(libs.junit)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.runtime.ktx.v262)

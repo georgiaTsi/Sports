@@ -1,9 +1,9 @@
-package com.example.kaizen.viewmodel
+package com.example.sports.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.kaizen.data.DatabaseHelper
-import com.example.kaizen.api.SportsApi
+import com.example.sports.data.DatabaseHelper
+import com.example.sports.api.SportsApi
 
 class MainViewModelFactory(private val sportsApi: SportsApi, private val dbHelper: DatabaseHelper) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

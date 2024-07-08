@@ -1,4 +1,4 @@
-package com.example.kaizen.ui.adapters
+package com.example.sports.ui.adapters
 
 import android.content.Context
 import android.os.CountDownTimer
@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kaizen.data.DatabaseHelper
-import com.example.kaizen.R
-import com.example.kaizen.data.Event
-import com.example.kaizen.viewmodel.MainViewModel
+import com.example.sports.data.DatabaseHelper
+import com.example.sports.R
+import com.example.sports.data.Event
+import com.example.sports.databinding.ItemEventBinding
+import com.example.sports.databinding.ItemSportsEventBinding
+import com.example.sports.viewmodel.MainViewModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -21,8 +23,8 @@ import java.util.TimeZone
 class EventAdapter(private val events: List<Event>, private val context: Context, private val viewModel: MainViewModel) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
-        return EventViewHolder(view)
+        val binding = ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return EventViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
@@ -59,22 +61,20 @@ class EventAdapter(private val events: List<Event>, private val context: Context
         return events.size
     }
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var countdownTextView: TextView = itemView.findViewById(R.id.tv_countdown)
-        private val tvCompetitor1: TextView = itemView.findViewById(R.id.tv_competitor_1)
-        private val tvCompetitor2: TextView = itemView.findViewById(R.id.tv_competitor_2)
-        val iv_favorite: ImageView = itemView.findViewById(R.id.iv_favorite)
+    class EventViewHolder(private val binding: ItemEventBinding) : RecyclerView.ViewHolder(binding.root) {
+        var countdownTextView: TextView = binding.tvCountdown
+        val iv_favorite: ImageView = binding.ivFavorite
 
         var countDownTimer: CountDownTimer? = null
 
         fun bind(event: Event) {
             val competitors = event.shortDescription.split(" - ")
-            tvCompetitor1.text = competitors[0]
-            tvCompetitor2.text = competitors[1]
+            binding.tvCompetitor1.text = competitors[0]
+            binding.tvCompetitor2.text = competitors[1]
 
-            iv_favorite.setImageResource(R.drawable.star)
+            binding.ivFavorite .setImageResource(R.drawable.star)
             if(event.isFavorite)
-                iv_favorite.setImageResource(R.drawable.star_border)
+                binding.ivFavorite .setImageResource(R.drawable.star_border)
         }
 
         fun updateCountdownText(millisUntilFinished: Long) {
@@ -83,7 +83,7 @@ class EventAdapter(private val events: List<Event>, private val context: Context
             val hours = (millisUntilFinished / (1000 * 60 * 60)) % 24
 
             val formattedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-            countdownTextView.text = formattedTime
+            binding.tvCountdown.text = formattedTime
         }
     }
 

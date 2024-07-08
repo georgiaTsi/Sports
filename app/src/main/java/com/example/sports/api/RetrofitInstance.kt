@@ -1,4 +1,4 @@
-package com.example.kaizen.api
+package com.example.sports.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

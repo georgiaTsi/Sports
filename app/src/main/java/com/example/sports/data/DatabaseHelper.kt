@@ -1,4 +1,4 @@
-package com.example.kaizen.data
+package com.example.sports.data
 
 import android.content.ContentValues
 import android.content.Context

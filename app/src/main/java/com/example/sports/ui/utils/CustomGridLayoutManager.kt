@@ -1,4 +1,4 @@
-package com.example.kaizen.ui.utils
+package com.example.sports.ui.utils
 
 import android.content.Context
 import android.util.Log

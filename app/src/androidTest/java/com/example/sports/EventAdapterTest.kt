@@ -1,9 +1,10 @@
-package com.example.kaizen
+package com.example.sports
 
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.kaizen.ui.adapters.EventAdapter
+import com.example.sports.databinding.ItemEventBinding
+import com.example.sports.ui.adapters.EventAdapter
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -12,11 +13,11 @@ class EventAdapterTest {
     @Test
     fun updateCountdownText_formatsTimeCorrectly() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val inflater = LayoutInflater.from(context)
         val parent = FrameLayout(context)
-        val view = inflater.inflate(R.layout.item_event, parent, false)
 
-        val viewHolder = EventAdapter.EventViewHolder(view)
+        val binding = ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        val viewHolder = EventAdapter.EventViewHolder(binding)
 
         viewHolder.updateCountdownText(3600000) // 1 hour
 

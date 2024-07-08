@@ -1,6 +1,6 @@
-package com.example.kaizen.api
+package com.example.sports.api
 
-import com.example.kaizen.data.Sport
+import com.example.sports.data.Sport
 import retrofit2.Call
 import retrofit2.http.GET
 

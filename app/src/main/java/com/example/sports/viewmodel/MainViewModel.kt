@@ -1,13 +1,13 @@
-package com.example.kaizen.viewmodel
+package com.example.sports.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kaizen.data.DatabaseHelper
-import com.example.kaizen.api.SportsApi
-import com.example.kaizen.data.Event
-import com.example.kaizen.data.Sport
+import com.example.sports.data.DatabaseHelper
+import com.example.sports.api.SportsApi
+import com.example.sports.data.Event
+import com.example.sports.data.Sport
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback

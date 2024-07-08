@@ -1,4 +1,4 @@
-package com.example.kaizen.ui;
+package com.example.sports.ui;
 
 import android.os.Bundle
 import android.view.View
@@ -11,41 +11,46 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kaizen.data.DatabaseHelper
-import com.example.kaizen.R
-import com.example.kaizen.ui.adapters.SportAdapter
-import com.example.kaizen.api.RetrofitInstance
-import com.example.kaizen.api.SportsApi
-import com.example.kaizen.viewmodel.MainViewModel
-import com.example.kaizen.viewmodel.MainViewModelFactory
-import com.example.kaizen.viewmodel.Resource
+import com.example.sports.R
+import com.example.sports.data.DatabaseHelper
+import com.example.sports.ui.adapters.SportAdapter
+import com.example.sports.api.RetrofitInstance
+import com.example.sports.api.SportsApi
+import com.example.sports.databinding.ActivityMainBinding
+import com.example.sports.viewmodel.MainViewModel
+import com.example.sports.viewmodel.MainViewModelFactory
+import com.example.sports.viewmodel.Resource
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var sportAdapter: SportAdapter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var linearMain: LinearLayout
-    private lateinit var txtNoEvents: TextView
+    lateinit var sportAdapter: SportAdapter
+    lateinit var recyclerView: RecyclerView
+    lateinit var progressBar: ProgressBar
+    lateinit var linearMain: LinearLayout
+    lateinit var txtNoEvents: TextView
 
-    private lateinit var viewModel: MainViewModel
+    lateinit var viewModel: MainViewModel
 
     lateinit var dbHelper: DatabaseHelper
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         dbHelper = DatabaseHelper(this)
 
-        recyclerView = findViewById(R.id.recycler_view)
+        recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        progressBar = findViewById(R.id.progress_bar)
-        linearMain = findViewById(R.id.linear_main)
-        txtNoEvents = findViewById(R.id.textview_no_events)
+        progressBar = binding.progressBar
+        linearMain = binding.linearMain
+        txtNoEvents = binding.textviewNoEvents
 
-        val starCheckbox = findViewById<CheckBox>(R.id.checkbox_star)
+        val starCheckbox = binding.checkboxStar
         starCheckbox.setOnClickListener {
             sportAdapter.filterStarred(starCheckbox.isChecked)
         }
