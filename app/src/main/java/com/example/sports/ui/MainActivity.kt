@@ -1,11 +1,7 @@
-package com.example.sports.ui;
+package com.example.sports.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -25,13 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var sportAdapter: SportAdapter
     lateinit var recyclerView: RecyclerView
-    lateinit var progressBar: ProgressBar
-    lateinit var linearMain: LinearLayout
-    lateinit var txtNoEvents: TextView
-
-    lateinit var viewModel: MainViewModel
-
-    lateinit var dbHelper: DatabaseHelper
 
     private lateinit var binding: ActivityMainBinding
 
@@ -41,14 +30,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dbHelper = DatabaseHelper(this)
-
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        progressBar = binding.progressBar
-        linearMain = binding.linearMain
-        txtNoEvents = binding.textviewNoEvents
 
         val starCheckbox = binding.checkboxStar
         starCheckbox.setOnClickListener {
@@ -62,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val sportsApi = RetrofitInstance.getInstance().create(SportsApi::class.java)
         val dbHelper = DatabaseHelper(this)
 
-        viewModel = ViewModelProvider(
+        val viewModel = ViewModelProvider(
             this,
             MainViewModelFactory(sportsApi, dbHelper)
         )[MainViewModel::class.java]
@@ -70,21 +53,21 @@ class MainActivity : AppCompatActivity() {
         viewModel.sports.observe(this) { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                    linearMain.visibility = View.GONE
-                    txtNoEvents.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.linearMain.visibility = View.GONE
+                    binding.textviewNoEvents.visibility = View.GONE
                 }
 
                 is Resource.Success -> {
-                    progressBar.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
 
                     if (resource.data.isNullOrEmpty()) {
-                        linearMain.visibility = View.GONE
-                        txtNoEvents.visibility = View.VISIBLE
-                        txtNoEvents.setText(R.string.no_events)
+                        binding.linearMain.visibility = View.GONE
+                        binding.textviewNoEvents.visibility = View.VISIBLE
+                        binding.textviewNoEvents.setText(R.string.no_events)
                     } else {
-                        linearMain.visibility = View.VISIBLE
-                        txtNoEvents.visibility = View.GONE
+                        binding.linearMain.visibility = View.VISIBLE
+                        binding.textviewNoEvents.visibility = View.GONE
 
                         // Update RecyclerView adapter with resource.data
                         sportAdapter = SportAdapter(resource.data, viewModel)
@@ -94,10 +77,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is Resource.Error -> {
-                    progressBar.visibility = View.GONE
-                    linearMain.visibility = View.GONE
-                    txtNoEvents.visibility = View.VISIBLE
-                    txtNoEvents.text = resource.message
+                    binding.progressBar.visibility = View.GONE
+                    binding.linearMain.visibility = View.GONE
+                    binding.textviewNoEvents.visibility = View.VISIBLE
+                    binding.textviewNoEvents.text = resource.message
 
                     Toast.makeText(this, resource.message, Toast.LENGTH_SHORT).show()
                 }

@@ -111,13 +111,4 @@ class EventAdapter(private val events: List<Event>, private val context: Context
             viewHolder?.countDownTimer?.cancel()
         }
     }
-
-    fun addFavoriteEvent(eventId: String, isFavorite: Boolean) {
-        val dbHelper = DatabaseHelper(context)
-
-        if(isFavorite)
-            dbHelper.addFavoriteEvent(eventId)
-        else
-            dbHelper.removeFavoriteEvent(eventId)
-    }
 }
