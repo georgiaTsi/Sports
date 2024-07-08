@@ -28,11 +28,9 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
 
         holder.iv_expand.setOnClickListener {
             val isExpanded = holder.rv_events.visibility == View.VISIBLE
-            holder.rv_events.visibility = if (isExpanded) View.GONE else View.VISIBLE
+            holder.toggleSport(!isExpanded)
 
-            holder.linear_collapse.visibility = if (!isExpanded) View.GONE else View.VISIBLE
-
-            holder.iv_expand.setRotation(holder.iv_expand.rotation+180);
+            filteredList[position].isExpanded = !isExpanded
         }
 
         holder.toggle_star.setOnClickListener {
@@ -60,7 +58,6 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
     }
 
     class SportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageview_ball: ImageView = itemView.findViewById(R.id.imageview_ball)
         private val tv_sport: TextView = itemView.findViewById(R.id.tv_sport)
         val rv_events: RecyclerView = itemView.findViewById(R.id.rv_events)
         val iv_expand: ImageView = itemView.findViewById(R.id.iv_expand)
@@ -77,13 +74,22 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
             rv_events.adapter = eventAdapter
 
             toggle_star.isChecked = false
-            if(sport.isStarred)
+            if (sport.isStarred)
                 toggle_star.isChecked = true
 
-            rv_events.visibility = View.VISIBLE
-            linear_collapse.visibility = View.GONE
+            toggleSport(sport.isExpanded)
+        }
 
-            iv_expand.setRotation(0F)
+        fun toggleSport(isExpanded: Boolean) {
+            if (isExpanded) {
+                rv_events.visibility = View.VISIBLE
+                linear_collapse.visibility = View.GONE
+                iv_expand.setRotation(0F)
+            } else {
+                rv_events.visibility = View.GONE
+                linear_collapse.visibility = View.VISIBLE
+                iv_expand.setRotation(180F)
+            }
         }
     }
 }

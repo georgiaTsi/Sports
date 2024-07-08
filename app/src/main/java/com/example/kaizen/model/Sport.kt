@@ -12,5 +12,7 @@ data class Sport(
     @SerializedName("e")
     val events: List<Event>,
 
-    var isStarred: Boolean = false
+    var isStarred: Boolean = false,
+
+    var isExpanded: Boolean = true
 )

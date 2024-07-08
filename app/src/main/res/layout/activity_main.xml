@@ -8,24 +8,28 @@
         android:id="@+id/linear_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <Spinner
-            android:id="@+id/sport_type_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/checkbox_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show_favorites_only" />
+            android:text="@string/show_favorites_only"
+            android:buttonTint="@color/blue"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"/>
 
     <TextView
         android:id="@+id/textview_no_events"
