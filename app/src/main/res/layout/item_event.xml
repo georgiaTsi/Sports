@@ -14,7 +14,7 @@
         android:padding="8dp"
         android:text="HH:MM:SS"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

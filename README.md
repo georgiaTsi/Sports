@@ -32,4 +32,4 @@ Jetpack Components:
 The repository includes unit tests for the EventAdapter and SportAdapter classes.
 Run the tests to ensure the functionality of these components.
   
-Clone the Repository: git clone https://github.com/georgiaTsi/Kaizen
+Clone the Repository: git clone https://github.com/georgiaTsi/Sports
