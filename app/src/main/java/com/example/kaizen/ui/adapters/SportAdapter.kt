@@ -1,4 +1,4 @@
-package com.example.kaizen
+package com.example.kaizen.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,39 +7,32 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kaizen.model.Sport
+import com.example.kaizen.ui.utils.CustomGridLayoutManager
+import com.example.kaizen.R
+import com.example.kaizen.data.Sport
+import com.example.kaizen.viewmodel.MainViewModel
 
-interface FavoriteSportListener {
-    fun addFavoriteSport(sportName: String)
-    fun removeFavoriteSport(sportName: String)
-}
-
-class SportAdapter(private val sports: List<Sport>, private val listener: FavoriteSportListener) : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
+class SportAdapter(private val sports: List<Sport>, private val viewModel: MainViewModel) : RecyclerView.Adapter<SportAdapter.SportViewHolder>() {
 
     private var filteredList: List<Sport> = sports.toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SportViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sports_event, parent, false)
-        return SportViewHolder(view)
+        return SportViewHolder(view, viewModel)
     }
 
     override fun onBindViewHolder(holder: SportViewHolder, position: Int) {
-        holder.bind(filteredList[position])
+        val sport = filteredList[position]
+        holder.bind(sport)
 
         holder.iv_expand.setOnClickListener {
-            val isExpanded = holder.rv_events.visibility == View.VISIBLE
-            holder.toggleSport(!isExpanded)
-
-            filteredList[position].isExpanded = !isExpanded
+            viewModel.toggleSportExpansion(sport)
+            notifyItemChanged(position)
         }
 
         holder.toggle_star.setOnClickListener {
-            filteredList[position].isStarred = !filteredList[position].isStarred
-
-            if (filteredList[position].isStarred)
-                listener.addFavoriteSport(filteredList[position].name)
-            else
-                listener.removeFavoriteSport(filteredList[position].name)
+            viewModel.toggleFavoriteSport(sport)
+            notifyItemChanged(position)
         }
     }
 
@@ -57,7 +50,7 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
         notifyDataSetChanged()
     }
 
-    class SportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class SportViewHolder(itemView: View, private val viewModel: MainViewModel) : RecyclerView.ViewHolder(itemView) {
         private val tv_sport: TextView = itemView.findViewById(R.id.tv_sport)
         val rv_events: RecyclerView = itemView.findViewById(R.id.rv_events)
         val iv_expand: ImageView = itemView.findViewById(R.id.iv_expand)
@@ -70,7 +63,7 @@ class SportAdapter(private val sports: List<Sport>, private val listener: Favori
             val layoutManager = CustomGridLayoutManager(itemView.context)
             rv_events.layoutManager = layoutManager
 
-            val eventAdapter = EventAdapter(sport.events, this.itemView.context)
+            val eventAdapter = EventAdapter(sport.events, this.itemView.context, viewModel)
             rv_events.adapter = eventAdapter
 
             toggle_star.isChecked = false

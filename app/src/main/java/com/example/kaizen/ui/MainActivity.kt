@@ -1,4 +1,4 @@
-package com.example.kaizen.view;
+package com.example.kaizen.ui;
 
 import android.os.Bundle
 import android.view.View
@@ -11,20 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kaizen.DatabaseHelper
-import com.example.kaizen.FavoriteSportListener
+import com.example.kaizen.data.DatabaseHelper
 import com.example.kaizen.R
-import com.example.kaizen.SportAdapter
+import com.example.kaizen.ui.adapters.SportAdapter
 import com.example.kaizen.api.RetrofitInstance
 import com.example.kaizen.api.SportsApi
 import com.example.kaizen.viewmodel.MainViewModel
 import com.example.kaizen.viewmodel.MainViewModelFactory
 import com.example.kaizen.viewmodel.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(), FavoriteSportListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var sportAdapter: SportAdapter
     private lateinit var recyclerView: RecyclerView
@@ -86,7 +82,7 @@ class MainActivity : AppCompatActivity(), FavoriteSportListener {
                         txtNoEvents.visibility = View.GONE
 
                         // Update RecyclerView adapter with resource.data
-                        sportAdapter = SportAdapter(resource.data, this@MainActivity)
+                        sportAdapter = SportAdapter(resource.data, viewModel)
                         recyclerView.adapter = sportAdapter
                         sportAdapter.notifyDataSetChanged()
                     }
@@ -101,18 +97,6 @@ class MainActivity : AppCompatActivity(), FavoriteSportListener {
                     Toast.makeText(this, resource.message, Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-    }
-
-    override fun addFavoriteSport(sportName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dbHelper.addFavoriteSport(sportName)
-        }
-    }
-
-    override fun removeFavoriteSport(sportName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dbHelper.removeFavoriteSport(sportName)
         }
     }
 }

@@ -1,6 +1,5 @@
-package com.example.kaizen
+package com.example.kaizen.ui.adapters
 
-import android.content.ContentValues
 import android.content.Context
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -9,14 +8,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kaizen.model.Event
+import com.example.kaizen.data.DatabaseHelper
+import com.example.kaizen.R
+import com.example.kaizen.data.Event
+import com.example.kaizen.viewmodel.MainViewModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class EventAdapter(private val events: List<Event>, private val context: Context) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private val events: List<Event>, private val context: Context, private val viewModel: MainViewModel) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
@@ -31,15 +33,8 @@ class EventAdapter(private val events: List<Event>, private val context: Context
         initCountdown(holder, event)
 
         holder.iv_favorite.setOnClickListener{
-            if (event.isFavorite) {
-                holder.iv_favorite.setImageResource(R.drawable.star)
-            } else {
-                holder.iv_favorite.setImageResource(R.drawable.star_border)
-            }
-
-            event.isFavorite = !event.isFavorite
-
-            addFavoriteEvent(event.eventId, event.isFavorite)
+            viewModel.toggleFavoriteEvent(event)
+            notifyItemChanged(position)
         }
     }
 
@@ -65,7 +60,7 @@ class EventAdapter(private val events: List<Event>, private val context: Context
     }
 
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val countdownTextView: TextView = itemView.findViewById(R.id.tv_countdown)
+        var countdownTextView: TextView = itemView.findViewById(R.id.tv_countdown)
         private val tvCompetitor1: TextView = itemView.findViewById(R.id.tv_competitor_1)
         private val tvCompetitor2: TextView = itemView.findViewById(R.id.tv_competitor_2)
         val iv_favorite: ImageView = itemView.findViewById(R.id.iv_favorite)

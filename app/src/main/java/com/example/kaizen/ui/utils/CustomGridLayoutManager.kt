@@ -1,4 +1,4 @@
-package com.example.kaizen
+package com.example.kaizen.ui.utils
 
 import android.content.Context
 import android.util.Log

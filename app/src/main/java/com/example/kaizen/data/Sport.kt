@@ -1,4 +1,4 @@
-package com.example.kaizen.model
+package com.example.kaizen.data
 
 import com.google.gson.annotations.SerializedName
 

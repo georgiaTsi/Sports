@@ -1,28 +1,24 @@
 package com.example.kaizen.viewmodel
 
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.kaizen.DatabaseHelper
-import com.example.kaizen.R
-import com.example.kaizen.SportAdapter
-import com.example.kaizen.api.RetrofitInstance
+import com.example.kaizen.data.DatabaseHelper
 import com.example.kaizen.api.SportsApi
-import com.example.kaizen.model.Sport
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.kaizen.data.Event
+import com.example.kaizen.data.Sport
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(private val sportsApi: SportsApi, private val dbHelper: DatabaseHelper) : ViewModel() {
+interface MainViewModelContract {
+    fun toggleSportExpansion(sport: Sport)
+    fun toggleFavoriteSport(sport: Sport)
+}
+
+open class MainViewModel(private val sportsApi: SportsApi, private val dbHelper: DatabaseHelper) : ViewModel(), MainViewModelContract {
     private val _sports = MutableLiveData<Resource<List<Sport>>>()
     val sports: LiveData<Resource<List<Sport>>> = _sports
 
@@ -72,9 +68,30 @@ class MainViewModel(private val sportsApi: SportsApi, private val dbHelper: Data
             }
         }
     }
+
+    override fun toggleSportExpansion(sport: Sport) {
+        sport.isExpanded = !sport.isExpanded
+    }
+
+    override fun toggleFavoriteSport(sport: Sport) {
+        sport.isStarred = !sport.isStarred
+        if (sport.isStarred) {
+            dbHelper.addFavoriteSport(sport.name)
+        } else {
+            dbHelper.removeFavoriteSport(sport.name)
+        }
+    }
+
+    fun toggleFavoriteEvent(event: Event) {
+        event.isFavorite = !event.isFavorite
+        if (event.isFavorite) {
+            dbHelper.addFavoriteEvent(event.eventId)
+        } else {
+            dbHelper.removeFavoriteEvent(event.eventId)
+        }
+    }
 }
 
-// Resource class to handle loading, success, and error states
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
     class Success<T>(data: T) : Resource<T>(data)
     class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)

@@ -50,6 +50,9 @@ android {
     viewBinding {
         enable = true
     }
+    testOptions{
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -82,4 +85,6 @@ dependencies {
     androidTestImplementation(libs.test.ext.junit)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.rules)
+    testImplementation(libs.mockito.core)
+    androidTestImplementation(libs.mockito.android)
 }
